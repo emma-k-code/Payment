@@ -1,6 +1,6 @@
 <?php
 
-require_once "GetAccount.php";
+require_once "Account.php";
 
 date_default_timezone_set("Asia/Taipei");
 $now = date('Y-m-d H:i:s');

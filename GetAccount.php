@@ -12,7 +12,7 @@ class GetAccount extends Database
     {
         $sql = "SELECT * FROM `account` WHERE `account` = :account";
         $result = $this->prepare($sql);
-        $result->bindParam("account",$account);
+        $result->bindParam("account", $account);
         $result->execute();
         
         return $result->fetch();
@@ -24,19 +24,45 @@ class GetAccount extends Database
             $money = -$money;
         }
         
-        $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`) VALUES (:account, :now, :money)";
-        $sth = $this->prepare($sql);
-        $sth->bindParam("account",$account);
-        $sth->bindParam("now",$now);
-        $sth->bindParam("money",$money);
-        $sth->execute();
+        try {
+            $this->transaction();
+            
+            $sql = "SELECT * FROM `account` WHERE `account` = :account FOR UPDATE";
+            $result = $this->prepare($sql);
+            $result->bindParam("account", $account);
+            $result->execute();
+            
+            $accountData = $result->fetch();
+            
+            if (($accountData[1] + $money) < 0) {
+                throw new Exception("餘額不足");
+            }
+            
+            $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`) VALUES (:account, :now, :money)";
+            $sth = $this->prepare($sql);
+            $sth->bindParam("account", $account);
+            $sth->bindParam("now", $now);
+            $sth->bindParam("money", $money);
+            if (!$sth->execute()) {
+                throw new Exception("交易失敗");
+            }
         
-        $sql = "UPDATE `account` SET `balance` = `balance` + (:money) WHERE `account` = :account";
-        $sth = $this->prepare($sql);
-        $sth->bindParam("account",$account);
-        $sth->bindParam("money",$money);
-        $sth->execute();
+            $sql = "UPDATE `account` SET `balance` = `balance` + (:money) WHERE `account` = :account";
+            $sth = $this->prepare($sql);
+            $sth->bindParam("account", $account);
+            $sth->bindParam("money", $money);
+            if (!$sth->execute()) {
+                throw new Exception("交易失敗");
+            }
+            
+            $this->commit();
+            
+        }catch(Exception $e) {
+            $this->rollBack();
+            $error = $e->getMessage();
+        }
         
+        return $error;
     }
 }
 

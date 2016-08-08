@@ -10,12 +10,12 @@ $getData = new GetAccount;
 
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
-    $getData->insert("enter", $account, $money, $now);
+    $error = $getData->insert("enter", $account, $money, $now);
 }
 
 if (isset($_POST['outSubmit'])) {
     $money = addslashes($_POST['out']);
-    $getData->insert("out", $account, $money, $now);
+    $error = $getData->insert("out", $account, $money, $now);
 }
 
 $accountData = $getData->search($account);
@@ -24,6 +24,9 @@ $accountData = $getData->search($account);
 <meta charset="utf-8">
 <h2><?php echo $accountData[0];?></h2>
 <h2>現在餘額：<?php echo $accountData[1];?></h2>
+
+<?php echo $error;?>
+
 <form method="POST">
     <label for="enter">輸入金額：</label>
     <input type="number" id="enter" name="enter"/>

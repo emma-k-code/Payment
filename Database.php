@@ -6,6 +6,7 @@ class Database
     const DATABASE_NAME = 'payment';
     const DATABASE_USERNAME = 'root';
     const DATABASE_PASSWORD = '';
+    
     private $connection = null;
     
     public function __construct()
@@ -27,14 +28,19 @@ class Database
     {
         return $this->connection->prepare($sql);
     }
-    public function transaction() {
+    
+    public function transaction()
+    {
         $this->connection->beginTransaction();
     }
-    public function commit() {
+    
+    public function commit()
+    {
         $this->connection->commit();
     }
-    public function rollBack() {
+    
+    public function rollBack()
+    {
         $this->connection->rollBack();
     }
 }
-?>

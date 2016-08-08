@@ -19,6 +19,7 @@ if (isset($_POST['outSubmit'])) {
 }
 
 $accountData = $getData->search($account);
+$detailtData = $getData->searchDetail($account);
 
 ?>
 <meta charset="utf-8">
@@ -42,4 +43,17 @@ $accountData = $getData->search($account);
 
 <div>
     <!--顯示交易明細-->
+    <table border="1">
+        <tr>
+            <td style="padding: 5px">時間</td>
+            <td style="padding: 5px">金額</td>
+        </tr>
+        
+        <?php foreach ($detailtData as $value) :?>
+        <tr>
+            <td style="padding: 5px"><?php echo $value['datetime']; ?></td>
+            <td style="padding: 5px"><?php echo $value['transaction']; ?></td>
+        </tr>
+        <?php endforeach ?>
+    </table>
 </div>

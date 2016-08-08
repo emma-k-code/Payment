@@ -4,29 +4,30 @@ require_once "GetAccount.php";
 
 date_default_timezone_set("Asia/Taipei");
 $now = date('Y-m-d H:i:s');
-$account = addslashes($_POST['account']);
+$accountName = addslashes($_POST['account']);
 
-$getData = new GetAccount;
+$account = new Account;
 
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
-    $error = $getData->insert("enter", $account, $money, $now);
+    $error = $account->insert("enter", $accountName, $money, $now);
+
 }
 
 if (isset($_POST['outSubmit'])) {
     $money = addslashes($_POST['out']);
-    $error = $getData->insert("out", $account, $money, $now);
+    $error = $account->insert("out", $accountName, $money, $now);
 }
 
-$accountData = $getData->search($account);
-$detailtData = $getData->searchDetail($account);
+$accountData = $account->search($accountName);
+$detailtData = $account->searchDetail($accountName);
 
 ?>
 <meta charset="utf-8">
-<h2><?php echo $accountData[0];?></h2>
-<h2>現在餘額：<?php echo $accountData[1];?></h2>
+<h2><?php echo $accountData[0]; // 帳戶名稱 ?></h2>
+<h2>現在餘額：<?php echo $accountData[1]; ?></h2>
 
-<?php echo $error;?>
+<?php echo $error; // 顯示錯誤訊息 ?>
 
 <form method="POST">
     <label for="enter">輸入金額：</label>
@@ -38,7 +39,7 @@ $detailtData = $getData->searchDetail($account);
     <input type="number" id="out" name="out"/>
     <input type="submit" min="0" name="outSubmit" value="轉出"/>
     
-    <input type="hidden" name="account" value="<?php echo $accountData[0];?>"/>
+    <input type="hidden" name="account" value="<?php echo $accountData[0]; // 帳戶名稱 ?>"/>
 </form>
 
 <div>

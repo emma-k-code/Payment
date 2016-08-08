@@ -75,4 +75,5 @@ class Account extends Database
         
         return $error;
     }
+    
 }

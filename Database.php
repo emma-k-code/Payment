@@ -1,5 +1,4 @@
 <?php
-namespace Chungyo\Payment\Database;
 
 class Database
 {

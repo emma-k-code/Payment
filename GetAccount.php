@@ -18,6 +18,16 @@ class GetAccount extends Database
         return $result->fetch();
     }
     
+    public function searchDetail($account)
+    {
+        $sql = "SELECT * FROM `details` WHERE `account` = :account ORDER BY `datetime` DESC";
+        $result = $this->prepare($sql);
+        $result->bindParam("account", $account);
+        $result->execute();
+        
+        return $result->fetchAll();
+    }
+    
     public function insert($io, $account, $money, $now)
     {
         if ($io == "out") {
@@ -37,7 +47,7 @@ class GetAccount extends Database
             if (($accountData[1] + $money) < 0) {
                 throw new Exception("餘額不足");
             }
-            
+
             $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`) VALUES (:account, :now, :money)";
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);

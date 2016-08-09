@@ -6,9 +6,9 @@ class Database
     const DATABASE_NAME = 'payment';
     const DATABASE_USERNAME = 'root';
     const DATABASE_PASSWORD = '';
-    
+
     private $connection = null;
-    
+
     public function __construct()
     {
         $dsn = sprintf('mysql:dbname=%s;host=%s', static::DATABASE_NAME, static::DATABASE_HOST);
@@ -19,7 +19,7 @@ class Database
             echo 'Connection failed: '.$e->getMessage();
         }
     }
-    
+
     /**
      * @param   string  SQL query
      * @return  object  
@@ -28,17 +28,17 @@ class Database
     {
         return $this->connection->prepare($sql);
     }
-    
+
     public function transaction()
     {
         $this->connection->beginTransaction();
     }
-    
+
     public function commit()
     {
         $this->connection->commit();
     }
-    
+
     public function rollBack()
     {
         $this->connection->rollBack();

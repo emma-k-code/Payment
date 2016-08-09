@@ -9,9 +9,7 @@ class Database
     const DATABASE_NAME = 'payment';
     const DATABASE_USERNAME = 'root';
     const DATABASE_PASSWORD = '';
-
     private $connection = null;
-
     /**
      * 建立資料庫連線
      */
@@ -25,26 +23,22 @@ class Database
             echo 'Connection failed: '.$e->getMessage();
         }
     }
-
     /**
      * @param   string  SQL query
-     * @return  object  
+     * @return  object
      */
     public function prepare($sql)
     {
         return $this->connection->prepare($sql);
     }
-
     public function transaction()
     {
         $this->connection->beginTransaction();
     }
-
     public function commit()
     {
         $this->connection->commit();
     }
-
     public function rollBack()
     {
         $this->connection->rollBack();

@@ -37,7 +37,7 @@ $detailtData = $account->searchDetail($accountName);
     <label for="out">輸入金額：</label>
     <input type="number" id="out" name="out"/>
     <input type="submit" min="0" name="outSubmit" value="轉出"/>
-    
+
     <input type="hidden" name="account" value="<?php echo $accountData[0]; // 帳戶名稱 ?>"/>
 </form>
 
@@ -48,7 +48,7 @@ $detailtData = $account->searchDetail($accountName);
             <td style="padding: 5px">時間</td>
             <td style="padding: 5px">金額</td>
         </tr>
-        
+
         <?php foreach ($detailtData as $value) :?>
         <tr>
             <td style="padding: 5px"><?php echo $value['datetime']; ?></td>

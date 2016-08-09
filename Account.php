@@ -38,41 +38,35 @@ class Account extends Database
         try {
             $this->transaction();
             
-            /*  悲觀並行控制又名「悲觀鎖」(PPC)
-                    為了阻止一個交易會影響其他用戶修改資料，在交易執行時將某行資料鎖起來，
-                    只有當該交易將鎖解開時，其他交易才能執行。
-            */
-            /*  MySQL中要使用悲觀鎖需先將MySQL設置為非autocommit模式
-                    set autocommit=0;
-                之後搭配transaction與commit
-            */
-            /*  排他锁（eXclusive Lock）又稱寫鎖
-                    當事務T將資料A加上排他鎖，則其他事務無法再給資料A加上其他鎖，而事務T可以讀寫資料A。
-                    用法： SELECT ... FOR UPDATE;
-            */
-            $sql = "SELECT * FROM `account` WHERE `account` = :account FOR UPDATE";
+            $sql = "SELECT * FROM `account` WHERE `account` = :account";
             $result = $this->prepare($sql);
             $result->bindParam("account", $account);
             $result->execute();
             
             $accountData = $result->fetch();
             
-            if (($accountData[1] + $money) < 0) {
+            $balance = $accountData[1] + $money;
+            $version = $accountData[2];
+            if ($balance < 0) {
                 throw new Exception("餘額不足");
             }
 
+            $sql = "UPDATE `account` SET `balance` = :balance, `version` = :version+1 WHERE `account` = :account AND `version` = :version";
+            $sth = $this->prepare($sql);
+            $sth->bindParam("account", $account);
+            $sth->bindParam("balance", $balance);
+            $sth->bindParam("version", $version);
+            if (!$sth->execute()) {
+                throw new Exception("交易失敗");
+            }
+            if ($sth->rowCount() == 0) {
+                throw new Exception("交易失敗");
+            }
+            
             $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`) VALUES (:account, :now, :money)";
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);
             $sth->bindParam("now", $now);
-            $sth->bindParam("money", $money);
-            if (!$sth->execute()) {
-                throw new Exception("交易失敗");
-            }
-        
-            $sql = "UPDATE `account` SET `balance` = `balance` + (:money) WHERE `account` = :account";
-            $sth = $this->prepare($sql);
-            $sth->bindParam("account", $account);
             $sth->bindParam("money", $money);
             if (!$sth->execute()) {
                 throw new Exception("交易失敗");

@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Class Database
+ *     資料庫相關方法
+ */
 class Database
 {
     const DATABASE_HOST = 'localhost';
@@ -9,6 +12,9 @@ class Database
 
     private $connection = null;
 
+    /**
+     * 建立資料庫連線
+     */
     public function __construct()
     {
         $dsn = sprintf('mysql:dbname=%s;host=%s', static::DATABASE_NAME, static::DATABASE_HOST);

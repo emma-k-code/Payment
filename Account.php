@@ -6,9 +6,18 @@
  */
 require_once "Database.php";
 
+/**
+ * Class Account
+ *     帳戶相關方法
+ */
 class Account extends Database
 {
-
+    /**
+     * 搜尋帳戶資料
+     * 
+     * @param   string  $account  帳戶名稱
+     * @return  array  
+     */
     public function search($account)
     {
         $sql = "SELECT * FROM `account` WHERE `account` = :account";
@@ -19,6 +28,12 @@ class Account extends Database
         return $result->fetch();
     }
 
+    /**
+     * 搜尋帳戶交易明細
+     * 
+     * @param   string  $account  帳戶名稱
+     * @return  array  
+     */
     public function searchDetail($account)
     {
         $sql = "SELECT * FROM `details` WHERE `account` = :account 
@@ -31,6 +46,15 @@ class Account extends Database
         return $result->fetchAll();
     }
 
+    /**
+     * 將交易寫入資料庫
+     * 
+     * @param   string  $io       用來判斷轉入或是轉出
+     * @param   string  $account  帳戶名稱
+     * @param   int     $money    金額
+     * @param   string  $now      交易時間
+     * @return  string
+     */
     public function insert($io, $account, $money, $now)
     {
         if ($io == "out") {

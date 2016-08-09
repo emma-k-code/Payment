@@ -38,6 +38,14 @@ class Account extends Database
         try {
             $this->transaction();
             
+            /*  悲觀並行控制又名「悲觀鎖」(PPC)
+                    為了阻止一個交易會影響其他用戶修改資料，在交易執行時將某行資料鎖起來，
+                    只有當該交易將鎖解開時，其他交易才能執行。
+            */
+            /*  MySQL中要使用悲觀鎖需先將MySQL設置為非autocommit模式
+                    set autocommit=0;
+                之後搭配transaction與commit
+            */
             $sql = "SELECT * FROM `account` WHERE `account` = :account FOR UPDATE";
             $result = $this->prepare($sql);
             $result->bindParam("account", $account);

@@ -21,7 +21,9 @@ class Account extends Database
 
     public function searchDetail($account)
     {
-        $sql = "SELECT * FROM `details` WHERE `account` = :account ORDER BY `datetime` DESC";
+        $sql = "SELECT * FROM `details` WHERE `account` = :account 
+        ORDER BY `datetime` DESC";
+        
         $result = $this->prepare($sql);
         $result->bindParam("account", $account);
         $result->execute();
@@ -51,7 +53,9 @@ class Account extends Database
                 throw new Exception("餘額不足");
             }
 
-            $sql = "UPDATE `account` SET `balance` = :balance, `version` = :version+1 WHERE `account` = :account AND `version` = :version";
+            $sql =
+            "UPDATE `account` SET `balance` = :balance,`version` = :version+1 
+            WHERE `account` = :account AND `version` = :version";
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);
             $sth->bindParam("balance", $balance);
@@ -63,7 +67,8 @@ class Account extends Database
                 throw new Exception("交易失敗");
             }
 
-            $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`) VALUES (:account, :now, :money)";
+            $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`) 
+            VALUES (:account, :now, :money)";
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);
             $sth->bindParam("now", $now);

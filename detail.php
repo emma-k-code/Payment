@@ -11,7 +11,6 @@ $account = new Account;
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
     $error = $account->insert("enter", $accountName, $money, $now);
-
 }
 
 if (isset($_POST['outSubmit'])) {

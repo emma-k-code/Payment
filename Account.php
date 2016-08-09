@@ -46,6 +46,10 @@ class Account extends Database
                     set autocommit=0;
                 之後搭配transaction與commit
             */
+            /*  排他锁（eXclusive Lock）又稱寫鎖
+                    當事務T將資料A加上排他鎖，則其他事務無法再給資料A加上其他鎖，而事務T可以讀寫資料A。
+                    用法： SELECT ... FOR UPDATE;
+            */
             $sql = "SELECT * FROM `account` WHERE `account` = :account FOR UPDATE";
             $result = $this->prepare($sql);
             $result->bindParam("account", $account);

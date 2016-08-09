@@ -13,9 +13,9 @@ class Account extends Database
 {
     /**
      * 搜尋帳戶資料
-     * 
+     *
      * @param   string  $account  帳戶名稱
-     * @return  array  
+     * @return  array
      */
     public function search($account)
     {
@@ -29,13 +29,13 @@ class Account extends Database
 
     /**
      * 搜尋帳戶交易明細
-     * 
+     *
      * @param   string  $account  帳戶名稱
-     * @return  array  
+     * @return  array
      */
     public function searchDetail($account)
     {
-        $sql = "SELECT * FROM `details` WHERE `account` = :account 
+        $sql = "SELECT * FROM `details` WHERE `account` = :account
         ORDER BY `datetime` DESC";
         $result = $this->prepare($sql);
         $result->bindParam("account", $account);
@@ -46,7 +46,7 @@ class Account extends Database
 
     /**
      * 將交易寫入資料庫
-     * 
+     *
      * @param   string  $io       用來判斷轉入或是轉出
      * @param   string  $account  帳戶名稱
      * @param   int     $money    金額
@@ -95,7 +95,7 @@ class Account extends Database
                 throw new Exception("交易失敗");
             }
 
-            $sql = "UPDATE `account` SET `balance` = `balance` + (:money) 
+            $sql = "UPDATE `account` SET `balance` = `balance` + (:money)
             WHERE `account` = :account";
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);

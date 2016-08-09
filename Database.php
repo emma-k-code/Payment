@@ -28,7 +28,7 @@ class Database
 
     /**
      * @param   string  SQL query
-     * @return  object  
+     * @return  object
      */
     public function prepare($sql)
     {

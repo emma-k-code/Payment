@@ -30,13 +30,13 @@ $detailtData = $account->searchDetail($accountName);
 
 <form method="POST">
     <label for="enter">輸入金額：</label>
-    <input type="number" id="enter" name="enter"/>
-    <input type="submit" min="0" name="enterSubmit" value="轉入"/>
+    <input type="number" min="0" id="enter" name="enter"/>
+    <input type="submit" name="enterSubmit" value="轉入"/>
     <br>
     <br>
     <label for="out">輸入金額：</label>
-    <input type="number" id="out" name="out"/>
-    <input type="submit" min="0" name="outSubmit" value="轉出"/>
+    <input type="number" min="0" id="out" name="out"/>
+    <input type="submit" name="outSubmit" value="轉出"/>
 
     <input type="hidden" name="account" value="<?php echo $accountName; // 帳戶名稱 ?>"/>
 </form>

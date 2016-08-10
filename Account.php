@@ -27,6 +27,7 @@ class Account extends Database
 
         return $balance;
     }
+
     /**
      * 搜尋帳戶交易明細
      *
@@ -44,6 +45,7 @@ class Account extends Database
 
         return $result->fetchAll();
     }
+
     /**
      * 將交易寫入資料庫
      *

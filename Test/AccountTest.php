@@ -11,8 +11,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
 
     public function providerTestSearchDetail()
     {
-        return [["emma", 4032],
-                ["test", 33]];
+        return [["emma", 4032], ["test", 33]];
     }
 
     public function providerTestInsert()
@@ -66,4 +65,3 @@ class AccountTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($insertResult, $result);
     }
 }
-?>

@@ -57,7 +57,7 @@ class Account extends Database
      * @param  int    $money   金額
      * @param  string $now     交易時間
      *
-     * @return string
+     * @return string|null
      */
     public function insertTransaction($io, $account, $money, $now)
     {
@@ -81,12 +81,12 @@ class Account extends Database
                 throw new Exception("餘額不足");
             }
 
-            $sql = "UPDATE `account` SET `balance` = :balance, " .
+            $sql = "UPDATE `account` SET `balance` = `balance` + :money, " .
             "`version` = :version + 1 WHERE `account` = :account " .
             "AND `version` = :version";
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);
-            $sth->bindParam("balance", $balance);
+            $sth->bindParam("money", $money);
             $sth->bindParam("version", $version);
 
             if (!$sth->execute()) {
@@ -112,8 +112,8 @@ class Account extends Database
         } catch(Exception $e) {
             $this->rollBack();
             $error = $e->getMessage();
-        }
 
-        return $error;
+            return $error;
+        }
     }
 }

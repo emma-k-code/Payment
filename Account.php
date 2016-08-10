@@ -91,6 +91,7 @@ class Account extends Database
             $sth->bindParam("account", $account);
             $sth->bindParam("now", $now);
             $sth->bindParam("money", $money);
+
             if (!$sth->execute()) {
                 throw new Exception("交易失敗");
             }
@@ -100,6 +101,7 @@ class Account extends Database
             $sth = $this->prepare($sql);
             $sth->bindParam("account", $account);
             $sth->bindParam("money", $money);
+
             if (!$sth->execute()) {
                 throw new Exception("交易失敗");
             }

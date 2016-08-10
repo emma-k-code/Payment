@@ -11,10 +11,10 @@ require_once "Database.php";
 class Account extends Database
 {
     /**
-     * 搜尋帳戶資料
+     * 搜尋帳戶餘額
      *
      * @param   string  $account  帳戶名稱
-     * @return  array
+     * @return  string
      */
     public function search($account)
     {
@@ -22,8 +22,10 @@ class Account extends Database
         $result = $this->prepare($sql);
         $result->bindParam("account", $account);
         $result->execute();
+        $result->bindColumn('balance',$balance);
+        $result->fetch(PDO::FETCH_BOUND);
 
-        return $result->fetch();
+        return $balance;
     }
     /**
      * 搜尋帳戶交易明細

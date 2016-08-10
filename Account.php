@@ -18,12 +18,11 @@ class Account extends Database
      */
     public function searchBalance($account)
     {
-        $sql = "SELECT * FROM `account` WHERE `account` = :account";
+        $sql = "SELECT `balance` FROM `account` WHERE `account` = :account";
         $result = $this->prepare($sql);
         $result->bindParam("account", $account);
         $result->execute();
-        $result->bindColumn('balance',$balance);
-        $result->fetch(PDO::FETCH_BOUND);
+        $balance = $result->fetchColumn();
 
         return $balance;
     }

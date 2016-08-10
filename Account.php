@@ -16,7 +16,7 @@ class Account extends Database
      * @param   string  $account  帳戶名稱
      * @return  string
      */
-    public function search($account)
+    public function searchBalance($account)
     {
         $sql = "SELECT * FROM `account` WHERE `account` = :account";
         $result = $this->prepare($sql);
@@ -55,7 +55,7 @@ class Account extends Database
      * @param   string  $now      交易時間
      * @return  string
      */
-    public function insert($io, $account, $money, $now)
+    public function insertTransaction($io, $account, $money, $now)
     {
 
         if ($io == "out") {

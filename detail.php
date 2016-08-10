@@ -10,15 +10,15 @@ $account = new Account;
 
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
-    $error = $account->insert("enter", $accountName, $money, $now);
+    $error = $account->insertTransaction("enter", $accountName, $money, $now);
 }
 
 if (isset($_POST['outSubmit'])) {
     $money = addslashes($_POST['out']);
-    $error = $account->insert("out", $accountName, $money, $now);
+    $error = $account->insertTransaction("out", $accountName, $money, $now);
 }
 
-$balance = $account->search($accountName);
+$balance = $account->searchBalance($accountName);
 $detailtData = $account->searchDetail($accountName);
 
 ?>

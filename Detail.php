@@ -1,8 +1,8 @@
 <?php
 
-require_once "Account.php";
+require_once 'Account.php';
 
-date_default_timezone_set("Asia/Taipei");
+date_default_timezone_set('Asia/Taipei');
 $now = date('Y-m-d H:i:s');
 $accountName = addslashes($_POST['account']);
 
@@ -10,12 +10,12 @@ $account = new Account;
 
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
-    $error = $account->insertTransaction("enter", $accountName, $money, $now);
+    $error = $account->insertTransaction('enter', $accountName, $money, $now);
 }
 
 if (isset($_POST['outSubmit'])) {
     $money = addslashes($_POST['out']);
-    $error = $account->insertTransaction("out", $accountName, $money, $now);
+    $error = $account->insertTransaction('out', $accountName, $money, $now);
 }
 
 $balance = $account->searchBalance($accountName);

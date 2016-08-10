@@ -4,7 +4,7 @@
  * Class Database
  * 資料庫相關方法
  */
-require_once "Database.php";
+require_once 'Database.php';
 
 /**
  * Class Account
@@ -23,7 +23,7 @@ class Account extends Database
     {
         $sql = "SELECT `balance` FROM `account` WHERE `account` = :account";
         $result = $this->prepare($sql);
-        $result->bindParam("account", $account);
+        $result->bindParam('account', $account);
         $result->execute();
         $balance = $result->fetchColumn();
 
@@ -43,7 +43,7 @@ class Account extends Database
         "ORDER BY `datetime` DESC";
 
         $result = $this->prepare($sql);
-        $result->bindParam("account", $account);
+        $result->bindParam('account', $account);
         $result->execute();
 
         return $result->fetchAll();
@@ -61,7 +61,7 @@ class Account extends Database
      */
     public function insertTransaction($io, $account, $money, $now)
     {
-        if ($io == "out") {
+        if ($io == 'out') {
             $money = -$money;
         }
 
@@ -70,7 +70,7 @@ class Account extends Database
 
             $sql = "SELECT * FROM `account` WHERE `account` = :account";
             $result = $this->prepare($sql);
-            $result->bindParam("account", $account);
+            $result->bindParam('account', $account);
             $result->execute();
             $accountData = $result->fetch();
 
@@ -78,34 +78,35 @@ class Account extends Database
             $version = $accountData[2];
 
             if ($balance < 0) {
-                throw new Exception("餘額不足");
+                throw new Exception('餘額不足');
             }
 
             $sql = "UPDATE `account` SET `balance` = `balance` + :money, " .
             "`version` = :version + 1 WHERE `account` = :account " .
             "AND `version` = :version";
             $sth = $this->prepare($sql);
-            $sth->bindParam("account", $account);
-            $sth->bindParam("money", $money);
-            $sth->bindParam("version", $version);
+            $sth->bindParam('account', $account);
+            $sth->bindParam('money', $money);
+            $sth->bindParam('version', $version);
 
             if (!$sth->execute()) {
-                throw new Exception("交易失敗");
+                throw new Exception('交易失敗');
             }
 
             if ($sth->rowCount() == 0) {
-                throw new Exception("交易失敗");
+                throw new Exception('交易失敗');
             }
 
-            $sql = "INSERT INTO `details`(`account`, `datetime`, `transaction`)
-            VALUES (:account, :now, :money)";
+            $sql = "INSERT INTO " .
+            "`details`(`account`, `datetime`, `transaction`)" .
+            "VALUES (:account, :now, :money)";
             $sth = $this->prepare($sql);
-            $sth->bindParam("account", $account);
-            $sth->bindParam("now", $now);
-            $sth->bindParam("money", $money);
+            $sth->bindParam('account', $account);
+            $sth->bindParam('now', $now);
+            $sth->bindParam('money', $money);
 
             if (!$sth->execute()) {
-                throw new Exception("交易失敗");
+                throw new Exception('交易失敗');
             }
 
             $this->commit();

@@ -68,6 +68,22 @@ class Account extends Database
         try {
             $this->transaction();
 
+
+            /*
+              樂觀並行控制又名「樂觀鎖」(OCC) 資料來源：wiki
+                 在交易提交資料更新前，先檢查在該交易讀取資料後，
+                 有沒有其他交易修改了該資料。
+                 如果有的話，正在提交的交易會進行回復。
+                 樂觀並行控制多數用於資料爭用不大、衝突較少的環境中，
+                 這種環境中，偶爾回復交易的成本會低於讀取資料時鎖定資料的成本。
+            */
+            /* 使用樂觀鎖需要搭配資料庫的transaction、commit與rollback */
+            /*
+              數據版本
+                 進行樂觀鎖的其中一種方式，於DB中增加一個欄位儲存數據版本，
+                 在進行資料庫更新前需要先比對DB中的數據版本是否與先前相同，
+                 只要在確定相同時才執行更新，否則就取消其關聯的所有資料庫動作。
+            */
             $sql = "SELECT * FROM `account` WHERE `account` = :account";
             $result = $this->prepare($sql);
             $result->bindParam('account', $account);

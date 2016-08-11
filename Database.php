@@ -1,7 +1,7 @@
 <?php
 /**
  * Class Database
- *     資料庫相關方法
+ * 資料庫相關方法
  */
 class Database
 {
@@ -18,6 +18,7 @@ class Database
     public function __construct()
     {
         $dsn = sprintf('mysql:dbname=%s;host=%s', static::DATABASE_NAME, static::DATABASE_HOST);
+
         try {
             $this->connection = new PDO($dsn, static::DATABASE_USERNAME, static::DATABASE_PASSWORD);
             $this->connection->exec("set names utf8");
@@ -27,8 +28,8 @@ class Database
     }
 
     /**
-     * @param   string  SQL query
-     * @return  object
+     * @param  string SQL query
+     * @return object
      */
     public function prepare($sql)
     {

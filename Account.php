@@ -41,7 +41,6 @@ class Account extends Database
     {
         $sql = "SELECT * FROM `details` WHERE `account` = :account " .
         "ORDER BY `datetime` DESC";
-
         $result = $this->prepare($sql);
         $result->bindParam('account', $account);
         $result->execute();
@@ -98,7 +97,7 @@ class Account extends Database
             }
 
             $sql = "INSERT INTO " .
-            "`details`(`account`, `datetime`, `transaction`)" .
+            "`details`(`account`, `datetime`, `transaction`) " .
             "VALUES (:account, :now, :money)";
             $sth = $this->prepare($sql);
             $sth->bindParam('account', $account);

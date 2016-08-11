@@ -17,16 +17,17 @@ class Account extends Database
      *
      * @param  string $account 帳戶名稱
      *
-     * @return array
+     * @return string
      */
-    public function search($account)
+    public function searchBalance($account)
     {
-        $sql = "SELECT * FROM `account` WHERE `account` = :account";
+        $sql = "SELECT `balance` FROM `account` WHERE `account` = :account";
         $result = $this->prepare($sql);
         $result->bindParam('account', $account);
         $result->execute();
+        $balance = $result->fetchColumn();
 
-        return $result->fetch();
+        return $balance;
     }
 
     /**
@@ -57,7 +58,7 @@ class Account extends Database
      *
      * @return string
      */
-    public function insert($io, $account, $money, $now)
+    public function insertTransaction($io, $account, $money, $now)
     {
         if ($io == 'out') {
             $money = -$money;

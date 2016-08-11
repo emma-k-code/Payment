@@ -10,21 +10,21 @@ $account = new Account;
 
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
-    $error = $account->insert("enter", $accountName, $money, $now);
+    $error = $account->insertTransaction("enter", $accountName, $money, $now);
 }
 
 if (isset($_POST['outSubmit'])) {
     $money = addslashes($_POST['out']);
-    $error = $account->insert("out", $accountName, $money, $now);
+    $error = $account->insertTransaction("out", $accountName, $money, $now);
 }
 
-$accountData = $account->search($accountName);
+$balance = $account->searchBalance($accountName);
 $detailtData = $account->searchDetail($accountName);
 
 ?>
 <meta charset="utf-8">
-<h2><?php echo $accountData[0]; // 帳戶名稱 ?></h2>
-<h2>現在餘額：<?php echo $accountData[1]; ?></h2>
+<h2><?php echo $accountName; // 帳戶名稱 ?></h2>
+<h2>現在餘額：<?php echo $balance; ?></h2>
 
 <?php echo $error; // 顯示錯誤訊息 ?>
 
@@ -38,7 +38,7 @@ $detailtData = $account->searchDetail($accountName);
     <input type="number" id="out" name="out"/>
     <input type="submit" min="0" name="outSubmit" value="轉出"/>
 
-    <input type="hidden" name="account" value="<?php echo $accountData[0]; // 帳戶名稱 ?>"/>
+    <input type="hidden" name="account" value="<?php echo $accountName; // 帳戶名稱 ?>"/>
 </form>
 
 <div>

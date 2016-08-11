@@ -79,15 +79,15 @@ class Account extends Database
                  用法： SELECT ... FOR UPDATE;
                資料來源：http://www.hollischuang.com/archives/923
             */
-            $sql = "SELECT * FROM `account` " .
+            $sql = "SELECT `balance` FROM `account` " .
             "WHERE `account` = :account FOR UPDATE";
             $result = $this->prepare($sql);
             $result->bindParam('account', $account);
             $result->execute();
 
-            $accountData = $result->fetch();
+            $balance = $result->fetchColumn();
 
-            if (($accountData[1] + $money) < 0) {
+            if (($balance + $money) < 0) {
                 throw new Exception('餘額不足');
             }
 

@@ -1,5 +1,7 @@
 <?php
 
+header("content-type: text/html; charset=utf-8");
+
 require_once 'Account.php';
 
 date_default_timezone_set('Asia/Taipei');
@@ -37,6 +39,11 @@ if (isset($_POST['outSubmit'])) {
 }
 
 $balance = $account->searchBalance($accountName);
+if ($balance == null) {
+    echo '無該帳戶';
+    exit;
+}
+
 $detailtData = $account->searchDetail($accountName);
 
 ?>

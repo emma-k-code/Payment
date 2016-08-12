@@ -7,7 +7,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     public function testSearchBalance()
     {
         $accountName = 'test';
-        $balance = '300';
+        $balance = '1000';
 
         $account = new Account;
         $accountBalance = $account->searchBalance($accountName);
@@ -18,7 +18,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     public function testSearchDetail()
     {
         $accountName = 'test';
-        $count = 10;
+        $count = 14;
 
         $account = new Account;
         $accountDetail = $account->searchDetail($accountName);
@@ -30,7 +30,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
         $io = 'out';
         $accountName = 'test';
-        $money = '301';
+        $money = '1001';
         $time = '2016-08-12 10:55:00';
         $result = '餘額不足';
 

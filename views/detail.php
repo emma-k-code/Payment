@@ -1,50 +1,9 @@
 <?php
 
-header("content-type: text/html; charset=utf-8");
-
-require_once 'Account.php';
-
-date_default_timezone_set('Asia/Taipei');
-$now = date('Y-m-d H:i:s');
-$accountName = addslashes($_POST['account']);
-
-$account = new Account;
-
-if (isset($_POST['enterSubmit'])) {
-    $money = addslashes($_POST['enter']);
-
-    $try = 0;
-    while ($try < 10) {
-        $try++;
-        $error = $account->insertTransaction('enter', $accountName, $money, $now);
-
-        if ($error == null) {
-            $try = 10;
-        }
-    }
-}
-
-if (isset($_POST['outSubmit'])) {
-    $money = addslashes($_POST['out']);
-
-    $try = 0;
-    while ($try < 10) {
-        $try++;
-        $error = $account->insertTransaction('out', $accountName, $money, $now);
-
-        if ($error == null || $error == '餘額不足') {
-            $try = 10;
-        }
-    }
-}
-
-$balance = $account->searchBalance($accountName);
-if ($balance == null) {
-    echo '無該帳戶';
-    exit;
-}
-
-$detailtData = $account->searchDetail($accountName);
+$accountName = $data[0];
+$balance = $data[1];
+$detailtData = $data[2];
+$error = $data[3];
 
 ?>
 <meta charset="utf-8">

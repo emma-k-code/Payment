@@ -116,4 +116,31 @@ class Account extends Database
             return $error;
         }
     }
+
+    /**
+     * 嘗試將交易寫入資料庫
+     *
+     * @param  string $io      用來判斷轉入或是轉出
+     * @param  string $account 帳戶名稱
+     * @param  int    $money   金額
+     *
+     * @return string|null
+     */
+    public function tryInsertTransaction($io, $accountName, $money)
+    {
+        date_default_timezone_set('Asia/Taipei');
+        $now = date('Y-m-d H:i:s');
+
+        $try = 0;
+        while ($try < 10) {
+            $try++;
+            $error = $this->insertTransaction($io, $accountName, $money, $now);
+
+            if ($error == null || $error == '餘額不足') {
+                $try = 10;
+            }
+        }
+
+        return $error;
+    }
 }

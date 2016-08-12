@@ -15,8 +15,7 @@ class Account extends Database
     /**
      * 搜尋帳戶餘額
      *
-     * @param  string $account 帳戶名稱
-     *
+     * @param string $account 帳戶名稱
      * @return string
      */
     public function searchBalance($account)
@@ -33,8 +32,7 @@ class Account extends Database
     /**
      * 搜尋帳戶交易明細
      *
-     * @param  string $account 帳戶名稱
-     *
+     * @param string $account 帳戶名稱
      * @return array
      */
     public function searchDetail($account)
@@ -52,11 +50,10 @@ class Account extends Database
     /**
      * 將交易寫入資料庫
      *
-     * @param  string $io      用來判斷轉入或是轉出
-     * @param  string $account 帳戶名稱
-     * @param  int    $money   金額
-     * @param  string $now     交易時間
-     *
+     * @param string $io 用來判斷轉入或是轉出
+     * @param string $account 帳戶名稱
+     * @param int    $money 金額
+     * @param string $now 交易時間
      * @return string|null
      */
     public function insertTransaction($io, $account, $money, $now)
@@ -67,7 +64,6 @@ class Account extends Database
 
         try {
             $this->transaction();
-
 
             /*
               樂觀並行控制又名「樂觀鎖」(OCC) 資料來源：wiki

@@ -29,7 +29,7 @@ class Database
     }
 
     /**
-     * @param  string SQL query
+     * @param string SQL query
      *
      * @return object
      */

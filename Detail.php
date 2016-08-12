@@ -16,7 +16,12 @@ if (isset($_POST['enterSubmit'])) {
     $try = 0;
     while ($try < 10) {
         $try++;
-        $error = $account->insertTransaction('enter', $accountName, $money, $now);
+        $error = $account->insertTransaction(
+                                'enter',
+                                $accountName,
+                                $money,
+                                $now
+                            );
 
         if ($error == null) {
             $try = 10;
@@ -30,7 +35,12 @@ if (isset($_POST['outSubmit'])) {
     $try = 0;
     while ($try < 10) {
         $try++;
-        $error = $account->insertTransaction('out', $accountName, $money, $now);
+        $error = $account->insertTransaction(
+                                'out',
+                                $accountName,
+                                $money,
+                                $now
+                            );
 
         if ($error == null || $error == '餘額不足') {
             $try = 10;

@@ -25,7 +25,7 @@ class AccountController extends Controller
 
         if (isset($_POST['enterSubmit'])) {
             $money = addslashes($_POST['enter']);
-            $error = $account->tryInsertTransaction(
+            $error = $account->insertTransaction(
                                     'enter',
                                     $accountName,
                                     $money
@@ -34,7 +34,7 @@ class AccountController extends Controller
 
         if (isset($_POST['outSubmit'])) {
             $money = addslashes($_POST['out']);
-            $error = $account->tryInsertTransaction(
+            $error = $account->insertTransaction(
                                     'out',
                                     $accountName,
                                     $money

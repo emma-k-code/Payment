@@ -1,13 +1,13 @@
 <?php
 
-require_once "Payment/Account.php";
+require_once 'Payment/Account.php';
 
 class AccountTest extends PHPUnit_Framework_TestCase
 {
-    public function testSearch()
+    public function testSearchBalance()
     {
-        $accountName = "emma";
-        $balance = "2300";
+        $accountName = 'test';
+        $balance = '300';
 
         $account = new Account;
         $accountBalance = $account->searchBalance($accountName);
@@ -17,8 +17,8 @@ class AccountTest extends PHPUnit_Framework_TestCase
 
     public function testSearchDetail()
     {
-        $accountName = "emma";
-        $count = 4034;
+        $accountName = 'test';
+        $count = 10;
 
         $account = new Account;
         $accountDetail = $account->searchDetail($accountName);
@@ -26,12 +26,50 @@ class AccountTest extends PHPUnit_Framework_TestCase
         $this->assertCount($count, $accountDetail);
     }
 
-    public function testInsert()
+    public function testInsertTransactionFail()
     {
-        $io = "out";
-        $accountName = "emma";
-        $money = "300";
-        $time = "2016-08-10 16:55:00";
+        $io = 'out';
+        $accountName = 'test';
+        $money = '301';
+        $time = '2016-08-12 10:55:00';
+        $result = '餘額不足';
+
+        $account = new Account;
+        $insertResult = $account->insertTransaction(
+                            $io,
+                            $accountName,
+                            $money,
+                            $time
+                        );
+
+        $this->assertEquals($insertResult, $result);
+    }
+
+    public function testInsertTransactionEnter()
+    {
+        $io = 'enter';
+        $accountName = 'test';
+        $money = '200';
+        $time = '2016-08-12 10:55:00';
+        $result = null;
+
+        $account = new Account;
+        $insertResult = $account->insertTransaction(
+                            $io,
+                            $accountName,
+                            $money,
+                            $time
+                        );
+
+        $this->assertEquals($insertResult, $result);
+    }
+
+    public function testInsertTransactionOut()
+    {
+        $io = 'out';
+        $accountName = 'test';
+        $money = '100';
+        $time = '2016-08-12 10:55:00';
         $result = null;
 
         $account = new Account;

@@ -10,12 +10,30 @@ $account = new Account;
 
 if (isset($_POST['enterSubmit'])) {
     $money = addslashes($_POST['enter']);
-    $error = $account->insertTransaction('enter', $accountName, $money, $now);
+
+    $try = 0;
+    while ($try < 10) {
+        $try++;
+        $error = $account->insertTransaction('enter', $accountName, $money, $now);
+
+        if ($error == null) {
+            $try = 10;
+        }
+    }
 }
 
 if (isset($_POST['outSubmit'])) {
     $money = addslashes($_POST['out']);
-    $error = $account->insertTransaction('out', $accountName, $money, $now);
+
+    $try = 0;
+    while ($try < 10) {
+        $try++;
+        $error = $account->insertTransaction('out', $accountName, $money, $now);
+
+        if ($error == null || $error == '餘額不足') {
+            $try = 10;
+        }
+    }
 }
 
 $balance = $account->searchBalance($accountName);
